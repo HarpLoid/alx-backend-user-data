@@ -5,7 +5,7 @@ Module - encrypt_password
 from bcrypt import hashpw, gensalt, checkpw
 
 
-def hash_password(password: str)-> bytes :
+def hash_password(password: str) -> bytes:
     """
     Generates password hash
     """
@@ -13,7 +13,7 @@ def hash_password(password: str)-> bytes :
                   gensalt())
 
 
-def is_valid(hashed_password: bytes, password: str)-> bool:
+def is_valid(hashed_password: bytes, password: str) -> bool:
     """
     check if password id valid
     """
