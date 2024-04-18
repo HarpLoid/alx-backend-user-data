@@ -21,7 +21,7 @@ class Auth:
             return True
 
         path = path if path.endswith('/') else path + '/'
-        
+
         for p in excluded_paths:
             if p.endswith('*'):
                 temp_path = path[:-1]
@@ -44,13 +44,13 @@ class Auth:
         current user
         """
         return None
-    
+
     def session_cookie(self, request=None):
         """
         creates a cookie value
         """
         if request is None:
             return None
-        
-        session_key = getenv('SESSION_NAME')        
+
+        session_key = getenv('SESSION_NAME')
         return request.cookies.get(session_key)
