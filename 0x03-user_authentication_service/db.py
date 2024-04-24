@@ -32,7 +32,7 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """
         adds a user to database
@@ -41,9 +41,9 @@ class DB:
         new_sess = self._session
         new_sess.add(user)
         new_sess.commit()
-        
+
         return user
-    
+
     def find_user_by(self, **kwargs: dict) -> User:
         """
         find a user by keyword arguments
@@ -51,20 +51,20 @@ class DB:
         try:
             return self._session.query(User).filter_by(**kwargs).one()
         except NoResultFound:
-            raise 
+            raise
         except InvalidRequestError:
             raise
-    
-    def update_user(self, user_id: int, **kwargs: dict)-> None:
+
+    def update_user(self, user_id: int, **kwargs: dict) -> None:
         """
         updates user of user_id
         """
         user = self.find_user_by(id=user_id)
-        
+
         for k, v in kwargs.items():
             if hasattr(user, k):
                 setattr(user, k, v)
             else:
                 raise ValueError
-        
+
         self._session.commit()

@@ -8,18 +8,19 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
+
 def _hash_password(password: str) -> bytes:
     """
     Generates password hash
     """
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
-def _generate_uuid()-> str:
+
+def _generate_uuid() -> str:
     """
     generates a uuid str
     """
     return str(uuid4())
-    
 
 
 class Auth:
@@ -28,7 +29,7 @@ class Auth:
 
     def __init__(self):
         self._db = DB()
-    
+
     def register_user(self, email: str, password: str) -> User:
         """
         registers the user to the db
@@ -39,17 +40,18 @@ class Auth:
         except NoResultFound:
             hashedpwd = _hash_password(password)
             return self._db.add_user(email, hashedpwd)
-    
-    def valid_login(self, email: str, password: str)-> bool:
+
+    def valid_login(self, email: str, password: str) -> bool:
         """
         determines if user is valid
         """
         try:
             return bcrypt.checkpw(password.encode("utf-8"),
-                                  self._db.find_user_by(email=email).hashed_password)
+                                  self._db.find_user_by(
+                                      email=email).hashed_password)
         except NoResultFound:
             return False
-    
+
     def create_session(self, email: str) -> str:
         """
         creates a session
@@ -61,8 +63,8 @@ class Auth:
             return session_id
         except NoResultFound:
             return None
-    
-    def get_user_from_session_id(self, session_id: str) -> User|None:
+
+    def get_user_from_session_id(self, session_id: str) -> User | None:
         """
         gets user from session_id
         """
@@ -72,13 +74,13 @@ class Auth:
             except NoResultFound:
                 return None
         return None
-    
-    def destroy_session(self, user_id: str)-> None:
+
+    def destroy_session(self, user_id: str) -> None:
         """
         destroys a users session
         """
         self._db.update_user(user_id, session_id=None)
-    
+
     def get_reset_password_token(self, email: str) -> str:
         """
         generates reset password token
@@ -91,13 +93,14 @@ class Auth:
         except NoResultFound:
             raise ValueError
 
-    def update_password(self, reset_token: str, password: str)-> None:
+    def update_password(self, reset_token: str, password: str) -> None:
         """
         updates the user's password
         """
         try:
             user = self._db.find_user_by(reset_token=reset_token)
             hashed_pwd = _hash_password(password)
-            self._db.update_user(user.id, hashed_password=hashed_pwd, reset_token=None)
+            self._db.update_user(
+                user.id, hashed_password=hashed_pwd, reset_token=None)
         except NoResultFound:
             raise ValueError
