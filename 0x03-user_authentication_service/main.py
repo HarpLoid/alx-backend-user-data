@@ -9,33 +9,41 @@ def register_user(email: str, password: str) -> None:
     """ Testing register user """
     assert True
 
+
 def log_in_wrong_password(email: str, password: str) -> None:
     """ Testing log in with wrong password """
     assert True
+
 
 def log_in(email: str, password: str) -> str:
     """ Testing log in """
     assert True
 
+
 def profile_unlogged() -> None:
     """ Testing profile unlogged """
     assert True
+
 
 def profile_logged(session_id: str) -> None:
     """ Testing profile logged """
     assert True
 
+
 def log_out(session_id: str) -> None:
     """ Testing log out """
     assert True
+
 
 def reset_password_token(email: str) -> str:
     """ Testing reset password token """
     assert True
 
+
 def update_password(email: str, reset_token: str, new_password: str) -> None:
     """ Testing update password """
     assert True
+
 
 EMAIL = "guillaume@holberton.io"
 PASSWD = "b4l0u"
